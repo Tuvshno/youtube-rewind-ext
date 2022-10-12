@@ -1,0 +1,19 @@
+.injected-box {
+  animation: fadeInFromNone 0.5s ease-out;
+
+}
+
+
+@keyframes fadeInFromNone {
+  0% {
+      opacity: 0;
+  }
+
+  1% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}

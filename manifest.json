@@ -1,0 +1,27 @@
+{
+  "name": "YouTube Recommended Rewinder",
+  "description": "Missed a video on your recommended? Rewind your recommended with this extension!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "storage",
+    "declarativeContent",
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "tabs",
+    "http://youtube.com",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "action": {
+    "default_icon": "ext-icon.png"
+  }
+}
