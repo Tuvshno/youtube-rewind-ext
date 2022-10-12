@@ -11,7 +11,7 @@ currentState = localStorage.getItem(currentStateKey)
 //Update Current State by 1
 currentState++
 
-//Check if state is greated than the length of data
+//Check if state is greater than the length of data
 //Reupdate the local storage
 //console.log(history_data)
 localStorage.setItem(currentStateKey, currentState)
@@ -19,45 +19,22 @@ localStorage.setItem(currentStateKey, currentState)
 currentElements = history_data[currentState]
 console.log(currentElements[0].videoTitle)
 
-//Access Current DOM Elements
-currentProfiles = document.querySelectorAll('#avatar img[src]')
-thumbnailElement = currentProfiles[0].parentElement.parentElement.parentElement.parentElement
+//Access Parent Element 
+primaryElement = document.querySelector('#primary')
+//Get Child Element - But Still Parent
+secondaryElement = primaryElement.firstElementChild
+//Get Main Element
+mainElement = secondaryElement.children[5]
+//Delete the Main Element
+mainElement.remove()
 
-console.log(thumbnail)
+//Make the new contents element
+mainContentElement = document.createElement("div")
 
-counter = 0
+//Add Back HTML In Replacement 
+siblingElement = secondaryElement.children[4]
+siblingElement.parentNode.insertBefore(mainContentElement, siblingElement.nextSibling)
 
-currentProfiles.forEach(item => {
-
-  if (currentElements[counter] === undefined) {
-     
-  }
-
-  thumbnailElement = item.parentElement.parentElement.parentElement.parentElement
-  thumbnailElementMetaData = thumbnailElement.firstElementChild.firstElementChild
-  metadata = thumbnailElement.lastElementChild.children[1]
-  channelMetaData = metadata.children[1].firstElementChild.firstElementChild
-    .firstElementChild.firstElementChild.firstElementChild
-    .firstElementChild.firstElementChild
-  statMetaData = metadata.children[1].firstElementChild.children[1]
-
-  thumbnailElementMetaData.href = currentElements[counter].videoUrl
-  thumbnailElement.firstElementChild.firstElementChild.children[1].firstElementChild.src = currentElements[counter].thumbnailUrl
-  metadata.firstElementChild.children[1].firstElementChild.innerText = currentElements[counter].videoTitle
-  channelMetaData.href = currentElements[counter].channelUrl
-  item.src = currentElements[counter].channelImg
-  channelMetaData.innerText = currentElements[counter].channelName
-  statMetaData.firstElementChild.innerText = currentElements[counter].views
-  statMetaData.children[1].innerText = currentElements[counter].date
-
-  //Change OnClickEvent for Thumbnail Clicks
-  thumbnailElement.addEventListener("click", (e) => {
-    window.location = currentElements[0].videoUrl
-  })
-
-  counter++
-
-})
 
 // //Inject CSS Class
 // rows = document.querySelectorAll('ytd-rich-grid-row')
