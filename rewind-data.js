@@ -17,7 +17,7 @@ currentState++
 localStorage.setItem(currentStateKey, currentState)
 
 currentElements = history_data[currentState]
-console.log(currentElements[0].videoTitle)
+previousElements = history_data[currentState - 1]
 
 //Access Parent Element 
 primaryElement = document.querySelector('#primary')
@@ -28,8 +28,63 @@ mainElement = secondaryElement.children[5]
 //Delete the Main Element
 mainElement.remove()
 
-//Make the new contents element
+//MAIN CONTAINER
 mainContentElement = document.createElement("div")
+mainContentElement.classList.add('video-grid')
+
+//Make the new contents element for each video
+currentElements.forEach(video => {
+
+  videoPreview = document.createElement("div")
+  videoPreview.classList.add('video-preview')
+
+  mainContentElement.appendChild(videoPreview)
+
+  thumbnailRow = document.createElement('div')
+  thumbnailRow.classList.add('thumbnail-row')
+
+  thumbnail = document.createElement('div')
+  imgThumbnail = document.createElement('img')
+  imgThumbnail.classList.add('thumbnail')
+  imgThumbnail.src = video.thumbnailUrl
+
+  videoPreview.appendChild(thumbnailRow)
+  thumbnailRow.appendChild(thumbnail)
+  thumbnail.appendChild(imgThumbnail)
+
+  videoInfoGrid = document.createElement('div')
+  videoInfoGrid.classList.add('video-info-grid')
+
+  channelPicture = document.createElement('div')
+  channelPicture.classList.add('channel-picture')
+  channelImg = document.createElement('img')
+  channelImg.classList.add('profile-picture')
+  channelImg.src = video.channelImg
+
+  channelPicture.appendChild(channelImg)
+  videoInfoGrid.appendChild(channelPicture)
+
+  videoInfo = document.createElement('div')
+  videoInfo.classList.add('video-info')
+
+  videoTitle = document.createElement('p')
+  videoTitle.classList.add('video-title')
+  videoTitle.innerText = video.videoTitle
+
+  videoAuthor = document.createElement('p')
+  videoAuthor.classList.add('video-author')
+  videoAuthor.innerText = video.channelName
+
+  videoStats = document.createElement('p')
+  videoStats.classList.add('video-stats')
+  videoStats.innerText = `${video.views} • ${video.date}`
+
+  videoPreview.appendChild(videoInfoGrid)
+  videoInfoGrid.appendChild(videoInfo)
+  videoInfo.appendChild(videoTitle)
+  videoInfo.appendChild(videoAuthor)
+  videoInfo.appendChild(videoStats)
+})
 
 //Add Back HTML In Replacement 
 siblingElement = secondaryElement.children[4]
@@ -47,7 +102,7 @@ siblingElement.parentNode.insertBefore(mainContentElement, siblingElement.nextSi
 //   videosRow0.forEach(element => {
 //     element.style.animation = 'none';
 //     element.offsetHeight; /* trigger reflow */
-//     element.style.animation = null; 
+//     element.style.animation = null;
 //   })
 // } else {
 //   videosRow0.forEach(element => {
