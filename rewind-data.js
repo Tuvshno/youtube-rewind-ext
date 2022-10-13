@@ -11,53 +11,85 @@ currentState = localStorage.getItem(currentStateKey)
 //Update Current State by 1
 currentState++
 
-//Check if state is greated than the length of data
+//Check if state is greater than the length of data
 //Reupdate the local storage
 //console.log(history_data)
 localStorage.setItem(currentStateKey, currentState)
 
 currentElements = history_data[currentState]
-console.log(currentElements[0].videoTitle)
+previousElements = history_data[currentState - 1]
 
-//Access Current DOM Elements
-currentProfiles = document.querySelectorAll('#avatar img[src]')
-thumbnailElement = currentProfiles[0].parentElement.parentElement.parentElement.parentElement
+//Access Parent Element 
+primaryElement = document.querySelector('#primary')
+//Get Child Element - But Still Parent
+secondaryElement = primaryElement.firstElementChild
+//Get Main Element
+mainElement = secondaryElement.children[5]
+//Delete the Main Element
+mainElement.remove()
 
-console.log(thumbnail)
+//MAIN CONTAINER
+mainContentElement = document.createElement("div")
+mainContentElement.classList.add('video-grid')
 
-counter = 0
+//Make the new contents element for each video
+currentElements.forEach(video => {
 
-currentProfiles.forEach(item => {
+  videoPreview = document.createElement("div")
+  videoPreview.classList.add('video-preview')
 
-  if (currentElements[counter] === undefined) {
-     
-  }
+  mainContentElement.appendChild(videoPreview)
 
-  thumbnailElement = item.parentElement.parentElement.parentElement.parentElement
-  thumbnailElementMetaData = thumbnailElement.firstElementChild.firstElementChild
-  metadata = thumbnailElement.lastElementChild.children[1]
-  channelMetaData = metadata.children[1].firstElementChild.firstElementChild
-    .firstElementChild.firstElementChild.firstElementChild
-    .firstElementChild.firstElementChild
-  statMetaData = metadata.children[1].firstElementChild.children[1]
+  thumbnailRow = document.createElement('div')
+  thumbnailRow.classList.add('thumbnail-row')
 
-  thumbnailElementMetaData.href = currentElements[counter].videoUrl
-  thumbnailElement.firstElementChild.firstElementChild.children[1].firstElementChild.src = currentElements[counter].thumbnailUrl
-  metadata.firstElementChild.children[1].firstElementChild.innerText = currentElements[counter].videoTitle
-  channelMetaData.href = currentElements[counter].channelUrl
-  item.src = currentElements[counter].channelImg
-  channelMetaData.innerText = currentElements[counter].channelName
-  statMetaData.firstElementChild.innerText = currentElements[counter].views
-  statMetaData.children[1].innerText = currentElements[counter].date
+  thumbnail = document.createElement('div')
+  imgThumbnail = document.createElement('img')
+  imgThumbnail.classList.add('thumbnail')
+  imgThumbnail.src = video.thumbnailUrl
 
-  //Change OnClickEvent for Thumbnail Clicks
-  thumbnailElement.addEventListener("click", (e) => {
-    window.location = currentElements[0].videoUrl
-  })
+  videoPreview.appendChild(thumbnailRow)
+  thumbnailRow.appendChild(thumbnail)
+  thumbnail.appendChild(imgThumbnail)
 
-  counter++
+  videoInfoGrid = document.createElement('div')
+  videoInfoGrid.classList.add('video-info-grid')
 
+  channelPicture = document.createElement('div')
+  channelPicture.classList.add('channel-picture')
+  channelImg = document.createElement('img')
+  channelImg.classList.add('profile-picture')
+  channelImg.src = video.channelImg
+
+  channelPicture.appendChild(channelImg)
+  videoInfoGrid.appendChild(channelPicture)
+
+  videoInfo = document.createElement('div')
+  videoInfo.classList.add('video-info')
+
+  videoTitle = document.createElement('p')
+  videoTitle.classList.add('video-title')
+  videoTitle.innerText = video.videoTitle
+
+  videoAuthor = document.createElement('p')
+  videoAuthor.classList.add('video-author')
+  videoAuthor.innerText = video.channelName
+
+  videoStats = document.createElement('p')
+  videoStats.classList.add('video-stats')
+  videoStats.innerText = `${video.views} • ${video.date}`
+
+  videoPreview.appendChild(videoInfoGrid)
+  videoInfoGrid.appendChild(videoInfo)
+  videoInfo.appendChild(videoTitle)
+  videoInfo.appendChild(videoAuthor)
+  videoInfo.appendChild(videoStats)
 })
+
+//Add Back HTML In Replacement 
+siblingElement = secondaryElement.children[4]
+siblingElement.parentNode.insertBefore(mainContentElement, siblingElement.nextSibling)
+
 
 // //Inject CSS Class
 // rows = document.querySelectorAll('ytd-rich-grid-row')
@@ -70,7 +102,7 @@ currentProfiles.forEach(item => {
 //   videosRow0.forEach(element => {
 //     element.style.animation = 'none';
 //     element.offsetHeight; /* trigger reflow */
-//     element.style.animation = null; 
+//     element.style.animation = null;
 //   })
 // } else {
 //   videosRow0.forEach(element => {

@@ -21,6 +21,10 @@
     "webRequestBlocking",
     "<all_urls>"
   ],
+  "content_scripts": [ {
+    "css": [ "inject.css" ],
+    "matches": [ "http://www.youtube.com/*" ]
+ } ],
   "action": {
     "default_icon": "ext-icon.png"
   }
